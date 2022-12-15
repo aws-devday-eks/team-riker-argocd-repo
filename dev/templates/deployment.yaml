@@ -16,6 +16,13 @@ spec:
       labels:
         app: guestbook-ui
     spec:
+      nodeSelector: # <- add nodeselector, toleration and spread constraitns
+        billing-team: default
+        type: karpenter
+      tolerations:
+        - key: 'karpenter'
+          operator: 'Exists'
+          effect: 'NoSchedule'
       containers:
       - image: gcr.io/heptio-images/ks-guestbook-demo:0.2
         name: guestbook-ui
