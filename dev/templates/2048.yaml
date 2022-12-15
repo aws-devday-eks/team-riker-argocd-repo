@@ -22,6 +22,17 @@ spec:
         app.kubernetes.io/name: app-2048
     spec:
       automountServiceAccountToken: false
+      nodeSelector: # <- add nodeselector, toleration and spread constraitns
+        billing-team: team-riker
+        type: karpenter
+      tolerations:
+        - key: 'karpenter'
+          operator: 'Exists'
+          effect: 'NoSchedule'
+        - key: "billing-team"
+          operator: "Equal"
+          value: "team-riker"
+          effect: "NoSchedule"
       containers:
         - image: public.ecr.aws/l6m2t8p7/docker-2048:latest
           imagePullPolicy: Always
